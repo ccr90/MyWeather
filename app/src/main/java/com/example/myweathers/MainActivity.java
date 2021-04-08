@@ -16,5 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private void init(){
         String name = "我是冲突";
         String text = "还有一行";
+        String content = "这是冲突";
+        String toast = "我不是冲突";
     }
 }
