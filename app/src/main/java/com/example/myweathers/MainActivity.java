@@ -16,5 +16,6 @@ public class MainActivity extends AppCompatActivity {
     private void init(){
         String name = "我是冲突";
         String text = "还有一行";
+        Toast.makeText(this,"冲突来了",Toast.LENGTH_SHORT).show();
     }
 }
