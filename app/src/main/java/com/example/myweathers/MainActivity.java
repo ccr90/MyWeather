@@ -13,6 +13,6 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
     private void init(){
-
+        String name = "我是冲突";
     }
 }
