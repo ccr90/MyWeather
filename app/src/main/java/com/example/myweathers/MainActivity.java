@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
     private void init(){
+        String test = "这是一个测试";
 
     }
 }
