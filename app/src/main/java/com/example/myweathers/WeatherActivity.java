@@ -5,6 +5,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.myweathers.gson.Forecast;
 import com.example.myweathers.gson.Weather;
+import com.example.myweathers.service.AutoUpdateService;
 import com.example.myweathers.util.HttpUtil;
 import com.example.myweathers.util.Utility;
 
@@ -34,9 +36,9 @@ import okhttp3.Response;
 
 public class WeatherActivity extends AppCompatActivity {
 
-    private final String bing_pic = "bing_pic";
+    public static final String BING_PIC = "bing_pic";
     private final String weather_id = "weather_id";
-    private final String weathers = "weather";
+    public static final String WEATHERS = "weather";
     private TextView titleCity;
     private TextView titleUpdateTime;
     private TextView degreeText;
@@ -81,7 +83,7 @@ public class WeatherActivity extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.design_default_color_primary);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String weatherStr = preferences.getString(weathers, null);
+        String weatherStr = preferences.getString(WEATHERS, null);
         final String weatherId;
         drawerLayout = findViewById(R.id.drawer_layout);
         button = findViewById(R.id.nav_btn);
@@ -108,7 +110,7 @@ public class WeatherActivity extends AppCompatActivity {
                 requestWeather(weatherId);
             }
         });
-        String bingPic = preferences.getString(bing_pic, null);
+        String bingPic = preferences.getString(BING_PIC, null);
         if (bingPic != null) {
             Glide.with(this).load(bingPic).into(bingPicImg);
         } else {
@@ -176,7 +178,7 @@ public class WeatherActivity extends AppCompatActivity {
                     public void run() {
                         if (weather != null && weather.status.equals("ok")) {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
-                            editor.putString(weathers, responseText);
+                            editor.putString(WEATHERS, responseText);
                             editor.apply();
                             showWeatherInfo(weather);
                         } else {
@@ -225,5 +227,7 @@ public class WeatherActivity extends AppCompatActivity {
         carWashText.setText(carWash);
         sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 }

@@ -174,8 +174,8 @@ public class ChooseAreaFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        closeDialog();
                         Toast.makeText(getContext(), "加载失败，干你！", Toast.LENGTH_SHORT).show();
+                        closeDialog();
                     }
                 });
             }
